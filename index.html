@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeowOS 1.0 — Powered by Paws</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐱</text></svg>" />
+</head>
+<body>
+
+  <!-- BOOT SCREEN -->
+  <div id="boot-screen">
+    <div class="boot-logo">🐱</div>
+    <div class="boot-title">MeowOS</div>
+    <div class="boot-sub">Powered by Paws™ — Version 1.0</div>
+    <div class="boot-bar-wrap"><div class="boot-bar" id="boot-bar"></div></div>
+    <div class="boot-msg" id="boot-msg">Waking up the cat...</div>
+  </div>
+
+  <!-- DESKTOP -->
+  <div id="desktop" class="hidden">
+
+    <!-- WALLPAPER CATS (animated bg elements) -->
+    <div class="bg-cat" style="top:5%;left:3%;font-size:2rem;animation-delay:0s">😺</div>
+    <div class="bg-cat" style="top:80%;left:90%;font-size:1.5rem;animation-delay:1.2s">🐾</div>
+    <div class="bg-cat" style="top:40%;left:92%;font-size:1.8rem;animation-delay:2.1s">😸</div>
+    <div class="bg-cat" style="top:70%;left:5%;font-size:1.4rem;animation-delay:0.7s">🐱</div>
+    <div class="bg-cat" style="top:15%;left:85%;font-size:2.2rem;animation-delay:3s">🐾</div>
+
+    <!-- TASKBAR -->
+    <div id="taskbar">
+      <div id="taskbar-left">
+        <div class="taskbar-logo" onclick="toggleStartMenu()">🐱 MeowOS</div>
+        <div id="taskbar-apps"></div>
+      </div>
+      <div id="taskbar-right">
+        <div id="taskbar-clock">00:00</div>
+        <div class="taskbar-notif" onclick="openApp('notifications')">🔔</div>
+      </div>
+    </div>
+
+    <!-- START MENU -->
+    <div id="start-menu" class="hidden">
+      <div class="start-header">
+        <span class="start-avatar">🐱</span>
+        <div>
+          <div class="start-username">Meow User</div>
+          <div class="start-sub">meow@Meowos.cat</div>
+        </div>
+      </div>
+      <div class="start-grid">
+        <div class="start-item" onclick="openApp('memes');closeStartMenu()"><span>😹</span><small>Meme Gallery</small></div>
+        <div class="start-item" onclick="openApp('browser');closeStartMenu()"><span>🌐</span><small>PurrFox</small></div>
+        <div class="start-item" onclick="openApp('notepad');closeStartMenu()"><span>📝</span><small>Pawpad</small></div>
+        <div class="start-item" onclick="openApp('music');closeStartMenu()"><span>🎵</span><small>MeowTunes</small></div>
+        <div class="start-item" onclick="openApp('paint');closeStartMenu()"><span>🎨</span><small>CatPaint</small></div>
+        <div class="start-item" onclick="openApp('terminal');closeStartMenu()"><span>💻</span><small>CatShell</small></div>
+        <div class="start-item" onclick="openApp('files');closeStartMenu()"><span>📁</span><small>Fur Files</small></div>
+        <div class="start-item" onclick="openApp('calculator');closeStartMenu()"><span>🔢</span><small>Calc-Cat</small></div>
+        <div class="start-item" onclick="openApp('game');closeStartMenu()"><span>🎮</span><small>Catch Yarn</small></div>
+        <div class="start-item" onclick="openApp('settings');closeStartMenu()"><span>⚙️</span><small>Fur Settings</small></div>
+        <div class="start-item" onclick="openApp('calendar');closeStartMenu()"><span>📅</span><small>PurrPlanner</small></div>
+        <div class="start-item" onclick="openApp('chat');closeStartMenu()"><span>💬</span><small>MeowChat</small></div>
+      </div>
+      <div class="start-footer">
+        <button onclick="shutDown()">🔴 Nap Mode</button>
+        <button onclick="closeStartMenu()">❌ Close</button>
+      </div>
+    </div>
+
+    <!-- DESKTOP ICONS -->
+    <div id="desktop-icons">
+      <div class="desk-icon" ondblclick="openApp('memes')"><span>😹</span><small>Meme Gallery</small></div>
+      <div class="desk-icon" ondblclick="openApp('browser')"><span>🌐</span><small>PurrFox</small></div>
+      <div class="desk-icon" ondblclick="openApp('notepad')"><span>📝</span><small>Pawpad</small></div>
+      <div class="desk-icon" ondblclick="openApp('music')"><span>🎵</span><small>MeowTunes</small></div>
+      <div class="desk-icon" ondblclick="openApp('paint')"><span>🎨</span><small>CatPaint</small></div>
+      <div class="desk-icon" ondblclick="openApp('terminal')"><span>💻</span><small>CatShell</small></div>
+      <div class="desk-icon" ondblclick="openApp('files')"><span>📁</span><small>Fur Files</small></div>
+      <div class="desk-icon" ondblclick="openApp('calculator')"><span>🔢</span><small>Calc-Cat</small></div>
+      <div class="desk-icon" ondblclick="openApp('game')"><span>🎮</span><small>Catch Yarn</small></div>
+      <div class="desk-icon" ondblclick="openApp('settings')"><span>⚙️</span><small>Settings</small></div>
+      <div class="desk-icon" ondblclick="openApp('calendar')"><span>📅</span><small>PurrPlanner</small></div>
+      <div class="desk-icon" ondblclick="openApp('chat')"><span>💬</span><small>MeowChat</small></div>
+    </div>
+
+    <!-- WINDOW CONTAINER -->
+    <div id="windows-container"></div>
+
+    <!-- CONTEXT MENU -->
+    <div id="context-menu" class="hidden">
+      <div class="ctx-item" onclick="changeWallpaper()">🖼️ Change Wallpaper</div>
+      <div class="ctx-item" onclick="openApp('settings');hideCtx()">⚙️ Settings</div>
+      <div class="ctx-item" onclick="sortIcons()">🗂️ Sort Icons</div>
+      <div class="ctx-item" onclick="openApp('memes');hideCtx()">😹 Open Memes</div>
+      <div class="ctx-item" onclick="hideCtx()">❌ Close Menu</div>
+    </div>
+
+    <!-- NOTIFICATION TOASTER -->
+    <div id="toaster"></div>
+
+  </div>
+
+  <!-- APP TEMPLATES -->
+  <template id="tpl-memes">
+    <div class="app-inner">
+      <div class="app-toolbar">
+        <button onclick="prevMeme()">◀ Prev</button>
+        <span id="meme-counter">1 / 12</span>
+        <button onclick="nextMeme()">Next ▶</button>
+        <button onclick="shuffleMeme()">🔀 Shuffle</button>
+      </div>
+      <div id="meme-display" class="meme-display"></div>
+      <div id="meme-caption" class="meme-caption"></div>
+      <div class="meme-grid" id="meme-grid"></div>
+    </div>
+  </template>
+
+  <template id="tpl-browser">
+    <div class="app-inner">
+      <div class="browser-bar">
+        <button onclick="browserBack()">◀</button>
+        <button onclick="browserFwd()">▶</button>
+        <button onclick="browserRefresh()">🔄</button>
+        <input id="browser-url" type="text" value="cat://home" onkeydown="if(event.key==='Enter')browserNav(this.value)" />
+        <button onclick="browserNav(document.getElementById('browser-url').value)">Go 🐾</button>
+      </div>
+      <div id="browser-content" class="browser-content"></div>
+    </div>
+  </template>
+
+  <template id="tpl-notepad">
+    <div class="app-inner notepad-inner">
+      <div class="notepad-toolbar">
+        <button onclick="notepadNew()">🆕 New</button>
+        <button onclick="notepadSave()">💾 Save</button>
+        <button onclick="notepadLoad()">📂 Load</button>
+        <select onchange="notepadFont(this.value)">
+          <option value="monospace">Monospace</option>
+          <option value="serif">Serif</option>
+          <option value="sans-serif">Sans-Serif</option>
+        </select>
+        <select onchange="notepadSize(this.value)">
+          <option value="14">14px</option>
+          <option value="16">16px</option>
+          <option value="18">18px</option>
+          <option value="20">20px</option>
+        </select>
+      </div>
+      <textarea id="notepad-area" placeholder="Meow your thoughts here...
+
+🐱 Welcome to Pawpad!
+Type anything, save your notes.
+The cat judges nothing."></textarea>
+      <div class="notepad-status" id="notepad-status">Ready — 0 chars</div>
+    </div>
+  </template>
+
+  <template id="tpl-music">
+    <div class="app-inner music-inner">
+      <div class="music-art" id="music-art">🎵</div>
+      <div class="music-title" id="music-title">Purring in the Rain</div>
+      <div class="music-artist" id="music-artist">DJ Whiskers</div>
+      <div class="music-progress-wrap">
+        <span id="music-cur">0:00</span>
+        <div class="music-progress" onclick="musicSeek(event)"><div id="music-bar" class="music-bar" style="width:0%"></div></div>
+        <span id="music-dur">3:24</span>
+      </div>
+      <div class="music-controls">
+        <button onclick="musicPrev()">⏮</button>
+        <button onclick="musicToggle()" id="music-play-btn" class="music-play">▶</button>
+        <button onclick="musicNext()">⏭</button>
+        <button onclick="musicShuffle()" id="music-shuf" title="Shuffle">🔀</button>
+        <button onclick="musicRepeat()" id="music-rep" title="Repeat">🔁</button>
+      </div>
+      <div class="music-vol-wrap">
+        🔈 <input type="range" min="0" max="100" value="70" id="music-vol" oninput="musicVolume(this.value)" /> 🔊
+      </div>
+      <div class="music-list" id="music-list"></div>
+    </div>
+  </template>
+
+  <template id="tpl-paint">
+    <div class="app-inner paint-inner">
+      <div class="paint-toolbar">
+        <label>Tool:</label>
+        <button class="paint-tool active" data-tool="pen" onclick="paintTool('pen',this)">✏️ Pen</button>
+        <button class="paint-tool" data-tool="eraser" onclick="paintTool('eraser',this)">🧹 Erase</button>
+        <button class="paint-tool" data-tool="fill" onclick="paintTool('fill',this)">🪣 Fill</button>
+        <button class="paint-tool" data-tool="line" onclick="paintTool('line',this)">📏 Line</button>
+        <button class="paint-tool" data-tool="rect" onclick="paintTool('rect',this)">⬜ Rect</button>
+        <button class="paint-tool" data-tool="circle" onclick="paintTool('circle',this)">⭕ Circle</button>
+        <label>Size:</label>
+        <input type="range" min="1" max="40" value="5" id="paint-size" />
+        <label>Color:</label>
+        <input type="color" value="#ff6b9d" id="paint-color" />
+        <button onclick="paintClear()">🗑️ Clear</button>
+        <button onclick="paintStamp()">🐾 Stamp</button>
+        <button onclick="paintSave()">💾 Save</button>
+        <button onclick="paintAddCat()">🐱 Add Cat</button>
+      </div>
+      <canvas id="paint-canvas" width="680" height="420"></canvas>
+    </div>
+  </template>
+
+  <template id="tpl-terminal">
+    <div class="app-inner terminal-inner">
+      <div id="terminal-output"></div>
+      <div class="terminal-input-row">
+        <span class="terminal-prompt">meow@MeowOS:~$</span>
+        <input id="terminal-input" type="text" autocomplete="off" onkeydown="terminalKey(event)" placeholder="type 'help'" />
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-files">
+    <div class="app-inner files-inner">
+      <div class="files-sidebar">
+        <div class="files-section-title">📁 Locations</div>
+        <div class="files-nav-item active" onclick="filesNav('home')">🏠 Home</div>
+        <div class="files-nav-item" onclick="filesNav('pictures')">🖼️ Paw-tures</div>
+        <div class="files-nav-item" onclick="filesNav('music')">🎵 Meow-sic</div>
+        <div class="files-nav-item" onclick="filesNav('documents')">📄 Docu-meows</div>
+        <div class="files-nav-item" onclick="filesNav('trash')">🗑️ Litter Box</div>
+      </div>
+      <div class="files-main">
+        <div class="files-path" id="files-path">🏠 Home</div>
+        <div class="files-grid" id="files-grid"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-calculator">
+    <div class="app-inner calc-inner">
+      <div class="calc-display">
+        <div class="calc-expr" id="calc-expr"></div>
+        <div class="calc-result" id="calc-result">0</div>
+      </div>
+      <div class="calc-buttons">
+        <button class="calc-fn" onclick="calcFn('C')">C</button>
+        <button class="calc-fn" onclick="calcFn('±')">±</button>
+        <button class="calc-fn" onclick="calcFn('%')">%</button>
+        <button class="calc-op" onclick="calcOp('÷')">÷</button>
+        <button onclick="calcNum('7')">7</button>
+        <button onclick="calcNum('8')">8</button>
+        <button onclick="calcNum('9')">9</button>
+        <button class="calc-op" onclick="calcOp('×')">×</button>
+        <button onclick="calcNum('4')">4</button>
+        <button onclick="calcNum('5')">5</button>
+        <button onclick="calcNum('6')">6</button>
+        <button class="calc-op" onclick="calcOp('−')">−</button>
+        <button onclick="calcNum('1')">1</button>
+        <button onclick="calcNum('2')">2</button>
+        <button onclick="calcNum('3')">3</button>
+        <button class="calc-op" onclick="calcOp('+')">+</button>
+        <button onclick="calcNum('0')" class="calc-zero">0</button>
+        <button onclick="calcNum('.')">.</button>
+        <button class="calc-eq" onclick="calcEq()">=</button>
+      </div>
+      <div class="calc-cat">🐱 <span id="calc-cat-say">Ready to count fish!</span></div>
+    </div>
+  </template>
+
+  <template id="tpl-game">
+    <div class="app-inner game-inner">
+      <div class="game-score-row">
+        <span>Score: <b id="game-score">0</b></span>
+        <span>🐾 Level: <b id="game-level">1</b></span>
+        <span>Lives: <span id="game-lives">🐱🐱🐱</span></span>
+        <button onclick="gameStart()" id="game-start-btn">▶ Start</button>
+      </div>
+      <canvas id="game-canvas" width="580" height="380"></canvas>
+      <div class="game-tip">Use mouse or arrow keys to catch the yarn! 🧶</div>
+    </div>
+  </template>
+
+  <template id="tpl-settings">
+    <div class="app-inner settings-inner">
+      <div class="settings-nav">
+        <div class="s-nav-item active" onclick="settingsTab('appearance',this)">🎨 Appearance</div>
+        <div class="s-nav-item" onclick="settingsTab('sound',this)">🔊 Sound</div>
+        <div class="s-nav-item" onclick="settingsTab('cat',this)">🐱 Cat Profile</div>
+        <div class="s-nav-item" onclick="settingsTab('about',this)">ℹ️ About</div>
+      </div>
+      <div class="settings-content" id="settings-content"></div>
+    </div>
+  </template>
+
+  <template id="tpl-calendar">
+    <div class="app-inner cal-inner">
+      <div class="cal-header">
+        <button onclick="calPrev()">◀</button>
+        <span id="cal-title">Month Year</span>
+        <button onclick="calNext()">▶</button>
+      </div>
+      <div class="cal-days-head">
+        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-events" id="cal-events">
+        <div class="cal-event-title">🐾 Cat Events Today</div>
+        <div id="cal-event-list"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-chat">
+    <div class="app-inner chat-inner">
+      <div class="chat-sidebar">
+        <div class="chat-contact active" onclick="chatSelect('whiskers')">
+          <span class="chat-avatar">😺</span>
+          <div><div class="chat-name">Whiskers</div><div class="chat-preview">Meow! You there?</div></div>
+        </div>
+        <div class="chat-contact" onclick="chatSelect('mittens')">
+          <span class="chat-avatar">😸</span>
+          <div><div class="chat-name">Mittens</div><div class="chat-preview">Did you see that laser?!</div></div>
+        </div>
+        <div class="chat-contact" onclick="chatSelect('chairman')">
+          <span class="chat-avatar">😼</span>
+          <div><div class="chat-name">Chairman Meow</div><div class="chat-preview">I demand treats NOW</div></div>
+        </div>
+        <div class="chat-contact" onclick="chatSelect('nyancat')">
+          <span class="chat-avatar">🌈</span>
+          <div><div class="chat-name">Nyan Cat</div><div class="chat-preview">nyan nyan nyan nyan</div></div>
+        </div>
+      </div>
+      <div class="chat-main">
+        <div class="chat-header-bar" id="chat-header-bar">
+          <span id="chat-contact-name">Select a cat to chat</span>
+          <span id="chat-status">🟢 Online</span>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-row">
+          <input id="chat-input" type="text" placeholder="Meow something..." onkeydown="if(event.key==='Enter')chatSend()" />
+          <button onclick="chatSend()">Send 🐾</button>
+          <button onclick="chatEmoji()">😺</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-notifications">
+    <div class="app-inner notif-inner">
+      <div class="notif-header">🔔 Notifications <button onclick="clearNotifs()">Clear all</button></div>
+      <div id="notif-list"></div>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
